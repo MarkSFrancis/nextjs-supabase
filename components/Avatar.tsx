@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabaseClient'
-import { DEFAULT_AVATARS_BUCKET } from '../lib/constants'
+import { supabase } from '@/lib/supabase/client'
+import { DEFAULT_AVATARS_BUCKET } from '@/lib/supabase/constants'
 
 export default function Avatar({ url, size }: { url: string | null; size: number }) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
@@ -18,7 +18,7 @@ export default function Avatar({ url, size }: { url: string | null; size: number
       const url = URL.createObjectURL(data)
       setAvatarUrl(url)
     } catch (error) {
-      console.log('Error downloading image: ', error.message)
+      console.log('Error downloading image: ', (error as Error).message)
     }
   }
 

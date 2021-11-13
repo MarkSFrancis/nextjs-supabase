@@ -1,4 +1,4 @@
-import { Profile } from '../lib/constants'
+import { Profile } from '@/lib/supabase/constants'
 import Avatar from './Avatar'
 
 export default function ProfileCard({ profile }: { profile: Profile }) {

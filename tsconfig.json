@@ -28,7 +28,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/Profile/Avatar/index.tscx"  ],
   "exclude": [
     "node_modules"
   ]

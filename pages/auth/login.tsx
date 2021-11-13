@@ -1,6 +1,6 @@
 import React from 'react';
-import Auth from '@/components/Auth/Auth';
+import { SignInUI } from '@/components/Auth/SignInUI';
 
-const Login = () => <Auth />;
+const SignIn = () => <SignInUI />;
 
-export default Login;
+export default SignIn;

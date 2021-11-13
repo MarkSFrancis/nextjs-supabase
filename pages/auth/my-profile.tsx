@@ -1,7 +1,9 @@
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect } from 'react';
-import Account from '@/views/Account/Account';
+import { Box, SimpleGrid } from '@chakra-ui/react';
+import { Account } from '@/views/Account/Account';
 import { useAuthSession } from '@/hooks/useAuthSession';
+import { PageContainer } from '@/components/Container/PageContainer';
 
 const MyProfile = () => {
   const { push } = useRouter();
@@ -14,18 +16,18 @@ const MyProfile = () => {
   }, []);
 
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+    <PageContainer>
       {!session ? (
         <></>
       ) : (
-        <div className="row">
-          <div className="col-6">
+        <SimpleGrid columns={2}>
+          <Box>
             <h3>Account</h3>
             <Account key={session.user?.id} session={session} />
-          </div>
-        </div>
+          </Box>
+        </SimpleGrid>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

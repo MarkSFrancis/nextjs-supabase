@@ -1,27 +1,31 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Box, Text } from '@chakra-ui/react';
 import { Profile } from '@/lib/supabase/constants';
-import Avatar from './Avatar';
+import { Avatar } from './Avatar/Avatar';
 
-export default function ProfileCard({ profile }: { profile: Profile }) {
-  const lastUpdated = profile.updated_at ? new Date(profile.updated_at) : null;
+export interface ProfileCardProps {
+  profile: Profile;
+}
+
+export const ProfileCard: FC<ProfileCardProps> = (props) => {
+  const lastUpdated = props.profile.updated_at ? new Date(props.profile.updated_at) : null;
   return (
-    <div className="profileCard">
-      <Avatar url={profile.avatar_url} size={100} />
-      <div className="userInfo">
-        <p className="username">{profile.username}</p>
-        <a className="website" href={profile.website} target="_blank" rel="noreferrer">
-          {profile.website}
+    <Box className="profileCard">
+      <Avatar url={props.profile.avatar_url} size={100} />
+      <Box className="userInfo">
+        <Text className="username">{props.profile.username}</Text>
+        <a className="website" href={props.profile.website} target="_blank" rel="noreferrer">
+          {props.profile.website}
         </a>
-        <p>
+        <Text>
           <small>
             Last updated{' '}
             {lastUpdated
               ? `${lastUpdated.toLocaleDateString()} ${lastUpdated.toLocaleTimeString()}`
               : 'Never'}
           </small>
-        </p>
-      </div>
-      <div />
-    </div>
+        </Text>
+      </Box>
+    </Box>
   );
-}
+};

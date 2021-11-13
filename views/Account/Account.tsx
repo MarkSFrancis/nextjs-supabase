@@ -1,14 +1,15 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { AuthSession } from '@supabase/supabase-js';
+import { Box, Button, HStack, Input, VStack } from '@chakra-ui/react';
 import { supabase } from '@/lib/supabase/client';
-import UploadButton from './UploadButton';
-import Avatar from '@/components/Profile/Avatar';
+import { UploadButton } from './UploadButton';
+import { Avatar } from '@/components/Profile/Avatar/Avatar';
 import { DEFAULT_AVATARS_BUCKET, Profile } from '@/lib/supabase/constants';
 
-export default function Account({ session }: { session: AuthSession }) {
+export const Account = ({ session }: { session: AuthSession }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [uploading, setUploading] = useState<boolean>(false);
-  const [avatar, setAvatar] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string>();
   const [username, setUsername] = useState<string | null>(null);
   const [website, setWebsite] = useState<string | null>(null);
 
@@ -81,7 +82,6 @@ export default function Account({ session }: { session: AuthSession }) {
         throw updateError;
       }
 
-      setAvatar(null);
       setAvatar(filePath);
     } catch (error) {
       alert((error as Error).message);
@@ -117,59 +117,46 @@ export default function Account({ session }: { session: AuthSession }) {
   }
 
   return (
-    <form className="account">
-      <div>
-        <label htmlFor="avatar">Avatar image</label>
-        <div className="avatarField">
-          <div className="avatarContainer">
-            {avatar ? (
-              <Avatar url={avatar} size={35} />
-            ) : (
-              <div className="avatarPlaceholder">?</div>
-            )}
-          </div>
-          <UploadButton onUpload={uploadAvatar} loading={uploading} />
-        </div>
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user?.email ?? ''} disabled />
-      </div>
-      <div>
-        <label htmlFor="username">Name</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="website"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
+    <form>
+      <VStack align="stretch" spacing={4}>
+        <Box>
+          <Box>
+            <Avatar url={avatar} size={35} />
+            <UploadButton onUpload={uploadAvatar} loading={uploading} />
+          </Box>
+        </Box>
+        <Box>
+          <label htmlFor="email">Email</label>
+          <Input id="email" type="text" value={session.user?.email ?? ''} disabled />
+        </Box>
+        <Box>
+          <label htmlFor="username">Name</label>
+          <Input
+            id="username"
+            type="text"
+            value={username || ''}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <label htmlFor="website">Website</label>
+          <Input
+            id="website"
+            type="website"
+            value={website || ''}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </Box>
 
-      <div>
-        <button
-          type="submit"
-          className="button block primary"
-          onClick={() => updateProfile()}
-          disabled={loading}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
-
-      <div>
-        <button type="button" className="button block" onClick={() => signOut()}>
-          Sign Out
-        </button>
-      </div>
+        <HStack spacing={4}>
+          <Button type="submit" onClick={() => updateProfile()} isLoading={loading}>
+            {loading ? 'Loading ...' : 'Update'}
+          </Button>
+          <Button colorScheme="red" variant="ghost" type="button" onClick={() => signOut()}>
+            Sign Out
+          </Button>
+        </HStack>
+      </VStack>
     </form>
   );
-}
+};

@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
-import ProfileCard from './ProfileCard';
+import { Box, Text } from '@chakra-ui/react';
+import { ProfileCard } from './ProfileCard';
 import { Profile } from '@/lib/supabase/constants';
 import { supabase } from '@/lib/supabase/client';
 
@@ -8,18 +9,18 @@ import { supabase } from '@/lib/supabase/client';
  * we should use "useReducer" for sending Realtime events
  */
 
-type State = {
+interface State {
   profiles: Profile[];
-};
-type Action = {
+}
+interface Action {
   type?: string;
   payload: any;
-};
-type ProfileListProps = {
+}
+interface ProfileListProps {
   profiles: Profile[];
-};
+}
 
-const handleDatabaseEvent = (state: State, action: Action) => {
+const handleDatabaseEvent = (state: State, action: Action): State => {
   if (action.type === 'upsert') {
     // eslint-disable-next-line eqeqeq
     const otherProfiles = state.profiles.filter((x) => x.id != action.payload.id);
@@ -32,10 +33,11 @@ const handleDatabaseEvent = (state: State, action: Action) => {
       profiles: action.payload,
     };
   }
+
   return { profiles: [] };
 };
 
-export default function ProfileList({ profiles }: ProfileListProps) {
+export const ProfileList = ({ profiles }: ProfileListProps) => {
   const initialState: State = { profiles };
   const [state, dispatch] = useReducer(handleDatabaseEvent, initialState);
 
@@ -59,14 +61,14 @@ export default function ProfileList({ profiles }: ProfileListProps) {
   return (
     <>
       {state.profiles.length === 0 ? (
-        <p className="opacity-half font-light m-0">There are no public profiles created yet</p>
+        <Text color="gray.500">There are no public profiles created yet</Text>
       ) : (
-        <div className="profileList">
-          {state.profiles?.map((profile: any) => (
+        <Box className="profileList">
+          {state.profiles?.map((profile) => (
             <ProfileCard profile={profile} key={profile.id} />
           ))}
-        </div>
+        </Box>
       )}
     </>
   );
-}
+};

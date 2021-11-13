@@ -1,3 +1,4 @@
+import { Box, Button } from '@chakra-ui/react';
 import React, { ChangeEventHandler } from 'react';
 
 export type UploadButtonProps = {
@@ -5,23 +6,21 @@ export type UploadButtonProps = {
   loading: boolean;
 };
 
-export default function UploadButton(props: UploadButtonProps) {
-  return (
-    <div>
-      <label className="button primary block" htmlFor="single">
-        {props.loading ? 'Uploading ...' : 'Upload'}
-      </label>
-      <input
-        style={{
-          visibility: 'hidden',
-          position: 'absolute',
-        }}
-        type="file"
-        id="single"
-        accept="image/*"
-        onChange={props.onUpload}
-        disabled={props.loading}
-      />
-    </div>
-  );
-}
+export const UploadButton = (props: UploadButtonProps) => (
+  <Box>
+    <Button as="label" cursor="pointer" htmlFor="single">
+      {props.loading ? 'Uploading ...' : 'Upload'}
+    </Button>
+    <input
+      style={{
+        visibility: 'hidden',
+        position: 'absolute',
+      }}
+      type="file"
+      id="single"
+      accept="image/*"
+      onChange={props.onUpload}
+      disabled={props.loading}
+    />
+  </Box>
+);

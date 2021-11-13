@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
-import Auth from '@/components/Auth/Auth';
-import ProfileList from '@/components/Profile/ProfileList';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
+import { SignInUI } from '@/components/Auth/SignInUI';
+import { ProfileList } from '@/components/Profile/ProfileList';
 import { useAuthSession } from '@/hooks/useAuthSession';
 import { supabase } from '@/lib/supabase/client';
 import { Profile } from '@/lib/supabase/constants';
-import Account from '../Account/Account';
+import { Account } from '../Account/Account';
+import { PageContainer } from '@/components/Container/PageContainer';
 
 export const HomeLandingPage: FC = () => {
   const session = useAuthSession();
@@ -32,21 +34,25 @@ export const HomeLandingPage: FC = () => {
   }, []);
 
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+    <PageContainer maxW="container.lg">
       {!session ? (
-        <Auth />
+        <SignInUI />
       ) : (
-        <div className="row">
-          <div className="col-6">
-            <h3>Account</h3>
+        <SimpleGrid spacing={4} columns={2}>
+          <Box>
+            <Heading size="md" as="h3">
+              Account
+            </Heading>
             <Account key={session.user?.id} session={session} />
-          </div>
-          <div className="col-6">
-            <h3>Public Profiles</h3>
+          </Box>
+          <Box>
+            <Heading size="md" as="h3">
+              Public Profiles
+            </Heading>
             <ProfileList profiles={profiles} />
-          </div>
-        </div>
+          </Box>
+        </SimpleGrid>
       )}
-    </div>
+    </PageContainer>
   );
 };

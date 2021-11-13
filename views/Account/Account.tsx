@@ -1,8 +1,8 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { AuthSession } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
-import UploadButton from '@/components/UploadButton';
-import Avatar from './Avatar';
+import UploadButton from './UploadButton';
+import Avatar from '@/components/Profile/Avatar';
 import { DEFAULT_AVATARS_BUCKET, Profile } from '@/lib/supabase/constants';
 
 export default function Account({ session }: { session: AuthSession }) {

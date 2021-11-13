@@ -1,7 +1,7 @@
 import { Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/dist/client/router';
 import React, { FC, ReactChildren, useEffect, useState } from 'react';
-import { useAuthSession } from '@/lib/hooks/useAuthSession';
+import { useAuthSession } from '@/hooks/useAuthSession';
 
 export interface LoggedInGuardProps {
   fallback?: ReactChildren;

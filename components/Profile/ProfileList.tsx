@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import ProfileCard from '@/components/ProfileCard';
+import ProfileCard from './ProfileCard';
 import { Profile } from '@/lib/supabase/constants';
 import { supabase } from '@/lib/supabase/client';
 

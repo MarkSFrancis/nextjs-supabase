@@ -1,7 +1,7 @@
-import ProfileCard from "@/components/ProfileCard";
-import { Profile } from "@/lib/supabase/constants";
-import { supabase } from "@/lib/supabase/client";
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from 'react';
+import ProfileCard from '@/components/ProfileCard';
+import { Profile } from '@/lib/supabase/constants';
+import { supabase } from '@/lib/supabase/client';
 
 /**
  * Since we want this component to update in realtime,
@@ -20,14 +20,14 @@ type ProfileListProps = {
 };
 
 const handleDatabaseEvent = (state: State, action: Action) => {
-  if (action.type === "upsert") {
-    const otherProfiles = state.profiles.filter(
-      (x) => x.id != action.payload.id
-    );
+  if (action.type === 'upsert') {
+    // eslint-disable-next-line eqeqeq
+    const otherProfiles = state.profiles.filter((x) => x.id != action.payload.id);
     return {
       profiles: [action.payload, ...otherProfiles],
     };
-  } else if (action.type === "set") {
+  }
+  if (action.type === 'set') {
     return {
       profiles: action.payload,
     };
@@ -41,9 +41,9 @@ export default function ProfileList({ profiles }: ProfileListProps) {
 
   useEffect(() => {
     const subscription = supabase
-      .from("profiles")
-      .on("*", (payload) => {
-        dispatch({ type: "upsert", payload: payload.new });
+      .from('profiles')
+      .on('*', (payload) => {
+        dispatch({ type: 'upsert', payload: payload.new });
       })
       .subscribe();
 
@@ -53,15 +53,13 @@ export default function ProfileList({ profiles }: ProfileListProps) {
   }, []);
 
   useEffect(() => {
-    dispatch({ type: "set", payload: profiles });
+    dispatch({ type: 'set', payload: profiles });
   }, [profiles]);
 
   return (
     <>
       {state.profiles.length === 0 ? (
-        <p className="opacity-half font-light m-0">
-          There are no public profiles created yet
-        </p>
+        <p className="opacity-half font-light m-0">There are no public profiles created yet</p>
       ) : (
         <div className="profileList">
           {state.profiles?.map((profile: any) => (

@@ -1,37 +1,31 @@
-import { useState } from "react";
-import { supabase } from "@/lib/supabase/client";
-import {
-  Box,
-  Container,
-  Heading,
-  SimpleGrid,
-  Text,
-  VStack,
-} from "@chakra-ui/layout";
-import { Input } from "@chakra-ui/input";
-import { Button } from "@chakra-ui/button";
+import React, { useCallback, useState } from 'react';
+import { Box, Container, Heading, SimpleGrid, Text, VStack, Input, Button } from '@chakra-ui/react';
+import { supabase } from '@/lib/supabase/client';
 
-export default function Auth({}) {
+export default function Auth() {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
 
-  const handleLogin = async (email: string) => {
+  const handleLogin = useCallback(async () => {
     try {
       setLoading(true);
-      const { error, user } = await supabase.auth.signIn({ email });
+      let redirectTo: string | undefined;
+      if (window.location.host === 'localhost:3000') {
+        redirectTo = 'http://localhost:3000';
+      }
+
+      const { error, user } = await supabase.auth.signIn({ email }, { redirectTo });
       if (error) throw error;
-      console.log("user", user);
-      alert("Check your email for the login link!");
+      console.info('user', user);
     } catch (error) {
-      console.log("Error thrown:", (error as Error).message);
+      console.error((error as Error).message);
       alert(
-        (error as { error_description?: string }).error_description ||
-          (error as Error).message
+        (error as { error_description?: string }).error_description || (error as Error).message
       );
     } finally {
       setLoading(false);
     }
-  };
+  }, [email]);
 
   return (
     <Container maxW="container.lg">
@@ -39,15 +33,14 @@ export default function Auth({}) {
         <VStack align="stretch">
           <Heading>Supabase Auth + Storage</Heading>
           <Text>
-            Experience our Auth and Storage through a simple profile management
-            example. Create a user profile and upload an avatar image. Fast,
-            simple, secure.
+            Experience our Auth and Storage through a simple profile management example. Create a
+            user profile and upload an avatar image. Fast, simple, secure.
           </Text>
         </VStack>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleLogin(email);
+            handleLogin();
           }}
         >
           <VStack align="stretch">

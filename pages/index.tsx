@@ -1,4 +1,4 @@
-import Auth from "@/components/Auth";
+import Auth from "@/components/Auth/Auth";
 import Account from "@/components/Account";
 import ProfileList from "@/components/ProfileList";
 import { useState, useEffect } from "react";

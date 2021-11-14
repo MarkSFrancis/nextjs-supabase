@@ -5,6 +5,7 @@ import { DEFAULT_AVATARS_BUCKET } from '@/lib/supabase/constants';
 import { AvatarContainer } from './AvatarContainer';
 
 export interface AvatarProps {
+  isLoading?: boolean;
   url: string | undefined;
   size: number;
 }
@@ -30,7 +31,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
   }, [props.url]);
 
   return (
-    <AvatarContainer size={props.size}>
+    <AvatarContainer size={props.size} isLoading={props.isLoading || (!!props.url && !avatarUrl)}>
       {avatarUrl && <Image alt="avatar" src={avatarUrl} w={props.size} h={props.size} />}
     </AvatarContainer>
   );

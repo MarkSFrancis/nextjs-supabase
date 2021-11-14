@@ -1,12 +1,24 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { AuthSession } from '@supabase/supabase-js';
-import { Box, Button, HStack, Input, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  HStack,
+  Input,
+  VStack,
+} from '@chakra-ui/react';
+import { LockIcon } from '@chakra-ui/icons';
 import { supabase } from '@/lib/supabase/client';
 import { UploadButton } from './UploadButton';
 import { Avatar } from '@/components/Profile/Avatar/Avatar';
 import { DEFAULT_AVATARS_BUCKET, Profile } from '@/lib/supabase/constants';
+import { useAuthSession } from '@/hooks/useAuthSession';
 
-export const Account = ({ session }: { session: AuthSession }) => {
+export const Account = () => {
+  const session = useAuthSession();
   const [loading, setLoading] = useState<boolean>(true);
   const [uploading, setUploading] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>();
@@ -56,7 +68,7 @@ export const Account = ({ session }: { session: AuthSession }) => {
       setUploading(true);
 
       if (!event.target.files || !event.target.files.length) {
-        throw new Error('You must select an image to upload.');
+        return;
       }
 
       const user = supabase.auth.user();
@@ -119,34 +131,34 @@ export const Account = ({ session }: { session: AuthSession }) => {
   return (
     <form>
       <VStack align="stretch" spacing={4}>
+        <Heading size="md" as="h3">
+          Your public profile
+        </Heading>
         <Box>
-          <Box>
-            <Avatar url={avatar} size={35} />
+          <Avatar isLoading={loading} url={avatar} size={100} />
+          <FormControl id="avatar">
             <UploadButton onUpload={uploadAvatar} loading={uploading} />
-          </Box>
+          </FormControl>
         </Box>
-        <Box>
-          <label htmlFor="email">Email</label>
-          <Input id="email" type="text" value={session.user?.email ?? ''} disabled />
-        </Box>
-        <Box>
-          <label htmlFor="username">Name</label>
+        <FormControl isRequired id="email">
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <Input type="text" value={session?.user?.email ?? ''} disabled />
+          <FormHelperText display="flex" alignItems="center">
+            <LockIcon mr={1} /> Your email is private
+          </FormHelperText>
+        </FormControl>
+        <FormControl id="username">
+          <FormLabel>Name</FormLabel>
+          <Input type="text" value={username || ''} onChange={(e) => setUsername(e.target.value)} />
+        </FormControl>
+        <FormControl id="website">
+          <FormLabel>Website</FormLabel>
           <Input
-            id="username"
-            type="text"
-            value={username || ''}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Box>
-        <Box>
-          <label htmlFor="website">Website</label>
-          <Input
-            id="website"
             type="website"
             value={website || ''}
             onChange={(e) => setWebsite(e.target.value)}
           />
-        </Box>
+        </FormControl>
 
         <HStack spacing={4}>
           <Button type="submit" onClick={() => updateProfile()} isLoading={loading}>

@@ -1,19 +1,31 @@
-import { Box, Center } from '@chakra-ui/react';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import React, { FC } from 'react';
 
 export interface AvatarContainerProps {
+  isLoading?: boolean;
   size?: number;
 }
 
-export const AvatarContainer: FC<AvatarContainerProps> = (props) => (
-  <Box
-    borderWidth="1px"
-    borderColor="gray.200"
-    borderStyle="solid"
-    w={props.size}
-    h={props.size}
-    display="inline-block"
-  >
-    {props.children ?? <Center h="100%">?</Center>}
-  </Box>
-);
+export const AvatarContainer: FC<AvatarContainerProps> = (props) => {
+  const borderWidth = 1;
+  const size = props.size ? props.size + borderWidth * 2 : undefined;
+
+  const children = props.children ?? (
+    <Center h="100%">{props.isLoading ? <Spinner /> : <>?</>}</Center>
+  );
+
+  return (
+    <Box
+      borderWidth={borderWidth}
+      borderColor="gray.200"
+      borderStyle="solid"
+      borderRadius="50%"
+      w={size}
+      h={size}
+      display="inline-block"
+      overflow="hidden"
+    >
+      {children}
+    </Box>
+  );
+};

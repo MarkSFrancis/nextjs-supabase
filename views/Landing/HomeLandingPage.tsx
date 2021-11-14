@@ -38,12 +38,9 @@ export const HomeLandingPage: FC = () => {
       {!session ? (
         <SignInUI />
       ) : (
-        <SimpleGrid spacing={4} columns={2}>
+        <SimpleGrid minChildWidth="250px" spacing={4}>
           <Box>
-            <Heading size="md" as="h3">
-              Account
-            </Heading>
-            <Account key={session.user?.id} session={session} />
+            <Account key={session.user?.id} />
           </Box>
           <Box>
             <Heading size="md" as="h3">

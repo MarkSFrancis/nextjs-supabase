@@ -28,7 +28,7 @@ export const SignInUI = () => {
   }, [email]);
 
   return (
-    <SimpleGrid columns={2}>
+    <SimpleGrid spacing={4} minChildWidth="250px">
       <VStack align="stretch">
         <Heading>Supabase Auth + Storage</Heading>
         <Text>

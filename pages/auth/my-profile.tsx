@@ -1,7 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect } from 'react';
 import { Account } from '@/views/Account/Account';
-import { useAuthSession } from '@/hooks/useAuthSession';
+import { useAuthSession } from '@/hooks/auth/useAuthSession';
 import { PageContainer } from '@/components/Container/PageContainer';
 
 const MyProfile = () => {

@@ -21,7 +21,6 @@ module.exports = {
     'no-console': ['warn', { allow: ['warn', 'info', 'error'] }],
     'react/jsx-filename-extension': 0,
     'react/jsx-no-bind': 0,
-    'jsx-a11y/label-has-associated-control': 0,
     'react/destructuring-assignment': 0,
     'react/jsx-no-useless-fragment': 0,
     'import/prefer-default-export': 0,

@@ -14,49 +14,25 @@ import { LockIcon } from '@chakra-ui/icons';
 import { supabase } from '@/lib/supabase/client';
 import { UploadButton } from './UploadButton';
 import { Avatar } from '@/components/Profile/Avatar/Avatar';
-import { DEFAULT_AVATARS_BUCKET, Profile } from '@/lib/supabase/constants';
-import { useAuthSession } from '@/hooks/useAuthSession';
+import { DEFAULT_AVATARS_BUCKET } from '@/lib/supabase/constants';
+import { useAuthSession } from '@/hooks/auth/useAuthSession';
+import { useSessionProfile } from '@/hooks/profiles/useSessionProfile';
 
 export const Account = () => {
   const session = useAuthSession();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>();
   const [username, setUsername] = useState<string | null>(null);
   const [website, setWebsite] = useState<string | null>(null);
 
-  function setProfile(profile: Profile) {
-    setAvatar(profile.avatar_url);
-    setUsername(profile.username);
-    setWebsite(profile.website);
-  }
-
-  async function getProfile() {
-    try {
-      setLoading(true);
-      const user = supabase.auth.user();
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('username, website, avatar_url')
-        .eq('id', user!.id)
-        .single();
-
-      if (error) {
-        throw error;
-      }
-
-      setProfile(data);
-    } catch (error) {
-      console.error('error', (error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { isLoadingSessionProfile, sessionProfile } = useSessionProfile();
 
   useEffect(() => {
-    getProfile();
-  }, [session]);
+    setAvatar(sessionProfile?.avatar_url);
+    setUsername(sessionProfile?.username ?? null);
+    setWebsite(sessionProfile?.website ?? null);
+  }, [sessionProfile]);
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
@@ -137,7 +113,7 @@ export const Account = () => {
         <Box>
           <Avatar isLoading={loading} url={avatar} size={100} />
           <FormControl id="avatar">
-            <UploadButton onUpload={uploadAvatar} loading={uploading} />
+            <UploadButton onUpload={uploadAvatar} loading={isLoadingSessionProfile || uploading} />
           </FormControl>
         </Box>
         <FormControl isRequired id="email">

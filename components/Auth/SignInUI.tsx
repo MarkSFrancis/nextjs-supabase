@@ -1,5 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Heading, SimpleGrid, Text, VStack, Input, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  SimpleGrid,
+  Text,
+  VStack,
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+} from '@chakra-ui/react';
+import { EmailIcon } from '@chakra-ui/icons';
 import { supabase } from '@/lib/supabase/client';
 
 export const SignInUI = () => {
@@ -43,19 +55,21 @@ export const SignInUI = () => {
         }}
       >
         <VStack align="stretch">
-          <Text>Sign in via magic link with your email below</Text>
-          <Box>
+          <FormControl id="email">
+            <FormLabel>Sign in with your email</FormLabel>
             <Input
-              className="inputField"
               type="email"
               placeholder="Your email"
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </Box>
+            <FormHelperText>
+              We&apos;ll send you a link. If you can&apos;t see the link, check your spam folder
+            </FormHelperText>
+          </FormControl>
           <Box>
-            <Button type="submit" isLoading={loading}>
+            <Button type="submit" isLoading={loading} leftIcon={<EmailIcon />}>
               Send magic link
             </Button>
           </Box>

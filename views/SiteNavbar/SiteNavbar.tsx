@@ -22,7 +22,7 @@ export const SiteNavbar: FC = () => {
 
   return (
     <Box boxShadow="sm">
-      <PageContainer px={0} py={2}>
+      <PageContainer p={2}>
         <Wrap justify="space-between" spacing={4}>
           <NextLink href="/" passHref>
             <IconButton as="a" icon={<>🏠</>} aria-label="Home page" />
@@ -57,9 +57,9 @@ export const SiteNavbar: FC = () => {
                 <IconButton as="a" icon={<SettingsIcon />} aria-label="Settings" />
               </NextLink>
             ) : (
-              <Button as="a" href="#" onClick={(e) => e.preventDefault()}>
-                Sign in or register
-              </Button>
+              <NextLink href="/auth/login" passHref>
+                <Button as="a">Sign in or register</Button>
+              </NextLink>
             )}
           </HStack>
         </Wrap>

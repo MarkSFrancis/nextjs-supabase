@@ -16,7 +16,7 @@ export const AvatarContainer: FC<AvatarContainerProps> = (props) => {
 
   return (
     <Box
-      borderWidth={borderWidth}
+      border={borderWidth}
       borderColor="gray.200"
       borderStyle="solid"
       borderRadius="50%"

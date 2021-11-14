@@ -131,7 +131,7 @@ export const Account = () => {
   return (
     <form>
       <VStack align="stretch" spacing={4}>
-        <Heading size="md" as="h3">
+        <Heading size="lg" as="h3">
           Your public profile
         </Heading>
         <Box>
@@ -147,7 +147,7 @@ export const Account = () => {
             <LockIcon mr={1} /> Your email is private
           </FormHelperText>
         </FormControl>
-        <FormControl id="username">
+        <FormControl isRequired id="username">
           <FormLabel>Name</FormLabel>
           <Input type="text" value={username || ''} onChange={(e) => setUsername(e.target.value)} />
         </FormControl>

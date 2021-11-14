@@ -30,10 +30,10 @@ export const SignInUI = () => {
   return (
     <SimpleGrid spacing={4} minChildWidth="250px">
       <VStack align="stretch">
-        <Heading>Supabase Auth + Storage</Heading>
+        <Heading>NextJS + Supabase</Heading>
         <Text>
-          Experience our Auth and Storage through a simple profile management example. Create a user
-          profile and upload an avatar image. Fast, simple, secure.
+          This NextJS app demoes the Supabase Auth and Storage through a simple profile management
+          example. Create a user profile and upload an avatar image. Fast, simple, secure.
         </Text>
       </VStack>
       <form

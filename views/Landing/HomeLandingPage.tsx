@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid, VStack } from '@chakra-ui/react';
 import { SignInUI } from '@/components/Auth/SignInUI';
 import { ProfileList } from '@/components/Profile/ProfileList';
 import { useAuthSession } from '@/hooks/useAuthSession';
@@ -42,12 +42,12 @@ export const HomeLandingPage: FC = () => {
           <Box>
             <Account key={session.user?.id} />
           </Box>
-          <Box>
-            <Heading size="md" as="h3">
-              Public Profiles
+          <VStack align="stretch" spacing={4}>
+            <Heading size="lg" as="h3">
+              Public profiles
             </Heading>
             <ProfileList profiles={profiles} />
-          </Box>
+          </VStack>
         </SimpleGrid>
       )}
     </PageContainer>

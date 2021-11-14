@@ -36,6 +36,6 @@ Populate this file with your URL and Key. You can get them from the Supabase das
 
 1. Start the app in dev mode by running this in your terminal:
    ```
-   yarn dev
+   yarn start
    ```
 1. Open your browser to `https://localhost:3000/` and you are ready to go 🚀.

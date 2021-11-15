@@ -7,21 +7,21 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
-  HStack,
   Input,
   VStack,
+  Wrap,
 } from '@chakra-ui/react';
 import { LockIcon } from '@chakra-ui/icons';
 import { supabase } from '@/lib/supabase/client';
 import { UploadButton } from './UploadButton';
 import { Avatar } from '@/components/Profile/Avatar/Avatar';
-import { DEFAULT_AVATARS_BUCKET } from '@/lib/supabase/constants';
+import { DEFAULT_AVATARS_BUCKET, PROFILES_TABLE } from '@/lib/supabase/constants';
 import { useAuthSession } from '@/hooks/auth/useAuthSession';
 import { useSessionProfile } from '@/hooks/profiles/useSessionProfile';
 
 export const Account = () => {
   const session = useAuthSession();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>();
   const [username, setUsername] = useState<string | null>(null);
@@ -48,7 +48,8 @@ export const Account = () => {
         return;
       }
 
-      const user = supabase.auth.user();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const user = supabase.auth.user()!;
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${session?.user?.id}${Math.random()}.${fileExt}`;
@@ -62,8 +63,8 @@ export const Account = () => {
         throw uploadError;
       }
 
-      const { error: updateError } = await supabase.from('profiles').upsert({
-        id: user!.id,
+      const { error: updateError } = await supabase.from(PROFILES_TABLE).upsert({
+        id: user.id,
         avatar_url: filePath,
       });
 
@@ -81,17 +82,18 @@ export const Account = () => {
 
   async function updateProfile() {
     try {
-      setLoading(true);
-      const user = supabase.auth.user();
+      setIsLoading(true);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const user = supabase.auth.user()!;
 
       const updates = {
-        id: user!.id,
+        id: user.id,
         username,
         website,
         updated_at: new Date(),
       };
 
-      const { error } = await supabase.from('profiles').upsert(updates, {
+      const { error } = await supabase.from(PROFILES_TABLE).upsert(updates, {
         returning: 'minimal', // Don't return the value after inserting
       });
 
@@ -101,18 +103,18 @@ export const Account = () => {
     } catch (error) {
       alert((error as Error).message);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
   return (
     <form>
-      <VStack align="stretch" spacing={4}>
+      <VStack align="stretch" spacing={6}>
         <Heading size="lg" as="h3">
           Your public profile
         </Heading>
         <Box>
-          <Avatar isLoading={loading} src={avatar} size="2xl">
+          <Avatar isLoading={isLoading} src={avatar} size="2xl">
             <AvatarBadge border={0} textTransform="none">
               <FormControl id="avatar">
                 <UploadButton
@@ -143,14 +145,14 @@ export const Account = () => {
           />
         </FormControl>
 
-        <HStack spacing={4}>
-          <Button type="submit" onClick={() => updateProfile()} isLoading={loading}>
-            {loading ? 'Loading ...' : 'Update'}
+        <Wrap spacing={4} justify="space-between">
+          <Button type="submit" onClick={() => updateProfile()} isLoading={isLoading}>
+            Save changes
           </Button>
-          <Button colorScheme="red" variant="ghost" type="button" onClick={() => signOut()}>
-            Sign Out
+          <Button colorScheme="red" variant="outline" type="button" onClick={() => signOut()}>
+            Sign out
           </Button>
-        </HStack>
+        </Wrap>
       </VStack>
     </form>
   );

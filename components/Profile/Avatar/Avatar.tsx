@@ -13,6 +13,7 @@ export interface AvatarProps extends ChakraAvatarProps {
 }
 
 export const Avatar = forwardRef<AvatarProps, typeof ChakraAvatar>((props, ref) => {
+  const { isLoading: isLoadingAvatar, ...avatarProps } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState<string>();
 
@@ -38,12 +39,12 @@ export const Avatar = forwardRef<AvatarProps, typeof ChakraAvatar>((props, ref) 
     }
   }, [props.src]);
 
-  const showImage = !props.isLoading && !isLoading;
+  const showImage = !isLoadingAvatar && !isLoading;
 
   return (
     <ChakraAvatar
       icon={<Spinner />}
-      {...props}
+      {...avatarProps}
       name={undefined}
       alt={props.name}
       src={showImage ? avatarUrl : undefined}

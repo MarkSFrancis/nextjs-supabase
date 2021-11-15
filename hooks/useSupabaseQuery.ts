@@ -1,8 +1,7 @@
-import { PostgrestResponse, PostgrestSingleResponse, SupabaseClient } from '@supabase/supabase-js';
+import { PostgrestResponse, PostgrestSingleResponse } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase/client';
 
-export type SupabaseQuery<T> = (client: SupabaseClient) => PromiseLike<T>;
+export type SupabaseQuery<T> = () => PromiseLike<T>;
 
 export const useSupabaseQuery = <T, U extends PostgrestSingleResponse<T> | PostgrestResponse<T>>(
   query: SupabaseQuery<U>,
@@ -16,7 +15,7 @@ export const useSupabaseQuery = <T, U extends PostgrestSingleResponse<T> | Postg
     try {
       setIsLoading(true);
 
-      const { data: supabaseData, error: supabaseError } = await query(supabase);
+      const { data: supabaseData, error: supabaseError } = await query();
 
       if (supabaseError) {
         throw supabaseError;

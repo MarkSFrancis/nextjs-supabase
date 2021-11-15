@@ -18,7 +18,7 @@ export const NavbarProfileLink: FC = () => {
       <NextLink href="/auth/my-profile">
         <a>
           <Tooltip label="Edit your profile">
-            <ProfileAvatar />
+            <ProfileAvatar height="2em" width="2em" />
           </Tooltip>
         </a>
       </NextLink>

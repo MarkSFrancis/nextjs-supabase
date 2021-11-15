@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Box, Text, Wrap } from '@chakra-ui/react';
 import { useProfileContext } from './ProfileContext';
 import { ProfileAvatar } from './ProfileAvatar';
-import { Card } from "../Card/Card";
+import { Card } from '../Card/Card';
 
 export const ProfileCard: FC = () => {
   const { profile } = useProfileContext();

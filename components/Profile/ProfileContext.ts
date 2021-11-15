@@ -5,12 +5,8 @@ export interface ProfileContext {
   profile: Profile;
 }
 
-const profileContext = createContext<ProfileContext>(undefined as any);
+const profileContext = createContext<ProfileContext>(undefined as unknown as ProfileContext);
 
 export const useProfileContext = () => useContext(profileContext);
-
-export interface ProfileProviderProps {
-  userId: string;
-}
 
 export const ProfileProvider = profileContext.Provider;

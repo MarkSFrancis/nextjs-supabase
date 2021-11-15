@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import {
+  AvatarBadge,
   Box,
   Button,
   FormControl,
@@ -111,15 +112,21 @@ export const Account = () => {
           Your public profile
         </Heading>
         <Box>
-          <Avatar isLoading={loading} url={avatar} size={100} />
-          <FormControl id="avatar">
-            <UploadButton onUpload={uploadAvatar} loading={isLoadingSessionProfile || uploading} />
-          </FormControl>
+          <Avatar isLoading={loading} src={avatar} size="2xl">
+            <AvatarBadge border={0} textTransform="none">
+              <FormControl id="avatar">
+                <UploadButton
+                  onUpload={uploadAvatar}
+                  loading={isLoadingSessionProfile || uploading}
+                />
+              </FormControl>
+            </AvatarBadge>
+          </Avatar>
         </Box>
         <FormControl isRequired id="email">
           <FormLabel htmlFor="email">Email</FormLabel>
           <Input type="text" value={session?.user?.email ?? ''} disabled />
-          <FormHelperText display="flex" alignItems="center">
+          <FormHelperText color="green.600" display="flex" alignItems="center">
             <LockIcon mr={1} /> Your email is private
           </FormHelperText>
         </FormControl>

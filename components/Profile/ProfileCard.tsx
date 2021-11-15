@@ -1,23 +1,21 @@
 import React, { FC } from 'react';
 import { Box, Text, Wrap } from '@chakra-ui/react';
-import { Profile } from '@/lib/supabase/constants';
-import { Avatar } from './Avatar/Avatar';
+import { useProfileContext } from './ProfileContext';
+import { ProfileAvatar } from './ProfileAvatar';
 
-export interface ProfileCardProps {
-  profile: Profile;
-}
+export const ProfileCard: FC = () => {
+  const { profile } = useProfileContext();
 
-export const ProfileCard: FC<ProfileCardProps> = (props) => {
-  const lastUpdated = props.profile.updated_at ? new Date(props.profile.updated_at) : null;
+  const lastUpdated = profile.updated_at ? new Date(profile.updated_at) : null;
   return (
     <Box border="1px" borderColor="gray.200" borderRadius="lg" boxShadow="md" p={4}>
       <Wrap align="center" spacing={4}>
-        <Avatar url={props.profile.avatar_url} size={100} />
+        <ProfileAvatar size="lg" />
         <Box>
-          <Text>{props.profile.username}</Text>
-          {props.profile.website && (
-            <a href={props.profile.website} target="_blank" rel="noreferrer">
-              {props.profile.website}
+          <Text>{profile.username}</Text>
+          {profile.website && (
+            <a href={profile.website} target="_blank" rel="noreferrer">
+              {profile.website}
             </a>
           )}
           <Text>

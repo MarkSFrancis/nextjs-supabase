@@ -1,44 +1,30 @@
-import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Profile } from '@/lib/supabase/constants';
 import { useAuthSession } from '../auth/useAuthSession';
+import { useSupabaseQuery } from '../useSupabaseQuery';
 
 export const useSessionProfile = () => {
   const session = useAuthSession();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<unknown>();
-  const [profile, setProfile] = useState<Profile | undefined>();
 
-  async function getProfile() {
-    try {
-      setIsLoading(true);
+  const sessionProfile = useSupabaseQuery(
+    (client) => {
       const user = supabase.auth.user();
 
-      const { data, error: supabaseError } = await supabase
-        .from('profiles')
-        .select('username, website, avatar_url')
-        .eq('id', user!.id)
-        .single();
-
-      if (supabaseError) {
-        throw supabaseError;
-      }
-
-      setProfile(data);
-    } catch (ex) {
-      setError(ex);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getProfile();
-  }, [session]);
+      return (
+        client
+          .from<Profile>('profiles')
+          .select('username, website, avatar_url')
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          .eq('id', user!.id)
+          .single()
+      );
+    },
+    [session]
+  );
 
   return {
-    isLoadingSessionProfile: isLoading,
-    sessionProfile: profile,
-    sessionProfileError: error,
+    isLoadingSessionProfile: sessionProfile.isLoading,
+    sessionProfile: sessionProfile.data,
+    sessionProfileError: sessionProfile.error,
   };
 };

@@ -3,6 +3,7 @@ import { Box, Text } from '@chakra-ui/react';
 import { ProfileCard } from './ProfileCard';
 import { Profile } from '@/lib/supabase/constants';
 import { supabase } from '@/lib/supabase/client';
+import { ProfileProvider } from './ProfileContext';
 
 /**
  * Since we want this component to update in realtime,
@@ -65,7 +66,9 @@ export const ProfileList = ({ profiles }: ProfileListProps) => {
       ) : (
         <Box className="profileList">
           {state.profiles?.map((profile) => (
-            <ProfileCard profile={profile} key={profile.id} />
+            <ProfileProvider key={profile.id} value={{ profile }}>
+              <ProfileCard />
+            </ProfileProvider>
           ))}
         </Box>
       )}

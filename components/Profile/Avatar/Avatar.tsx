@@ -1,20 +1,24 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Image } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+  Avatar as ChakraAvatar,
+  AvatarProps as ChakraAvatarProps,
+  forwardRef,
+  Spinner,
+} from '@chakra-ui/react';
 import { supabase } from '@/lib/supabase/client';
 import { DEFAULT_AVATARS_BUCKET } from '@/lib/supabase/constants';
-import { AvatarContainer } from './AvatarContainer';
 
-export interface AvatarProps {
+export interface AvatarProps extends ChakraAvatarProps {
   isLoading?: boolean;
-  url: string | undefined;
-  size: number;
 }
 
-export const Avatar: FC<AvatarProps> = (props) => {
+export const Avatar = forwardRef<AvatarProps, typeof ChakraAvatar>((props, ref) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState<string>();
 
   async function downloadImage(path: string) {
     try {
+      setIsLoading(true);
       const { data, error } = await supabase.storage.from(DEFAULT_AVATARS_BUCKET).download(path);
       if (error) {
         throw error;
@@ -23,16 +27,27 @@ export const Avatar: FC<AvatarProps> = (props) => {
       setAvatarUrl(newAvatarUrl);
     } catch (error) {
       console.error('Error downloading image: ', (error as Error).message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    if (props.url) downloadImage(props.url);
-  }, [props.url]);
+    if (props.src) {
+      downloadImage(props.src);
+    }
+  }, [props.src]);
+
+  const showImage = !props.isLoading && !isLoading;
 
   return (
-    <AvatarContainer size={props.size} isLoading={props.isLoading || (!!props.url && !avatarUrl)}>
-      {avatarUrl && <Image alt="avatar" src={avatarUrl} w={props.size} h={props.size} />}
-    </AvatarContainer>
+    <ChakraAvatar
+      icon={<Spinner />}
+      {...props}
+      name={undefined}
+      alt={props.name}
+      src={showImage ? avatarUrl : undefined}
+      ref={ref}
+    />
   );
-};
+});

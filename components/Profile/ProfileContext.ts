@@ -7,6 +7,6 @@ export interface ProfileContext {
 
 const profileContext = createContext<ProfileContext>(undefined as unknown as ProfileContext);
 
-export const useProfileContext = () => useContext(profileContext);
+export const useProfile = () => useContext(profileContext);
 
 export const ProfileProvider = profileContext.Provider;

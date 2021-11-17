@@ -18,13 +18,11 @@ import { DEFAULT_AVATARS_BUCKET, PROFILES_TABLE } from '@/lib/supabase/constants
 import { useAuthSession } from '@/hooks/auth/useAuthSession';
 import { useSessionProfile } from '@/hooks/profiles/useSessionProfile';
 import { FormHeading } from '@/components/Typography/FormHeading';
-import { useMutation } from '@/hooks/async/useMutation';
-import { useSupabaseMutation } from '@/hooks/supabase/useSupabaseMutation';
 
-export const Account = () => {
+export const AccountAvatarEditor = () => {
   const session = useAuthSession();
-  const [updateProfileState, { mutateAsync: updateProfileAsync }] = useSupabaseMutation();
-  const [uploadAvatarState, { mutateAsync: uploadAvatarAsync }] = useMutation();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>();
   const [username, setUsername] = useState<string | null>(null);
 
@@ -41,7 +39,9 @@ export const Account = () => {
   }
 
   async function uploadAvatar(event: ChangeEvent<HTMLInputElement>) {
-    await uploadAvatarAsync(async () => {
+    try {
+      setUploading(true);
+
       if (!event.target.files || !event.target.files.length) {
         return;
       }
@@ -71,11 +71,16 @@ export const Account = () => {
       }
 
       setAvatar(filePath);
-    });
+    } catch (error) {
+      alert((error as Error).message);
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function updateProfile() {
-    return updateProfileAsync(async () => {
+    try {
+      setIsLoading(true);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const user = supabase.auth.user()!;
 
@@ -85,10 +90,18 @@ export const Account = () => {
         updated_at: new Date(),
       };
 
-      return supabase.from(PROFILES_TABLE).upsert(updates, {
+      const { error } = await supabase.from(PROFILES_TABLE).upsert(updates, {
         returning: 'minimal', // Don't return the value after inserting
       });
-    });
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert((error as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -96,12 +109,12 @@ export const Account = () => {
       <VStack align="stretch" spacing={6}>
         <FormHeading>Your public profile</FormHeading>
         <Box>
-          <Avatar src={avatar} size="2xl">
+          <Avatar isLoading={isLoading} src={avatar} size="2xl">
             <AvatarBadge border={0} textTransform="none">
               <FormControl id="avatar">
                 <UploadButton
                   onUpload={uploadAvatar}
-                  loading={isLoadingSessionProfile || uploadAvatarState.isLoading}
+                  loading={isLoadingSessionProfile || uploading}
                 />
               </FormControl>
             </AvatarBadge>
@@ -120,11 +133,7 @@ export const Account = () => {
         </FormControl>
 
         <Wrap spacing={4} justify="space-between">
-          <Button
-            type="submit"
-            onClick={() => updateProfile()}
-            isLoading={updateProfileState.isLoading}
-          >
+          <Button type="submit" onClick={() => updateProfile()} isLoading={isLoading}>
             Save changes
           </Button>
           <Button colorScheme="red" variant="outline" type="button" onClick={() => signOut()}>

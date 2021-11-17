@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { Box, Text, Wrap } from '@chakra-ui/react';
-import { useProfileContext } from './ProfileContext';
+import { useProfile } from './ProfileContext';
 import { ProfileAvatar } from './ProfileAvatar';
 import { Card } from '../Card/Card';
 
 export const ProfileCard: FC = () => {
-  const { profile } = useProfileContext();
+  const { profile } = useProfile();
 
   const lastUpdated = profile.updated_at ? new Date(profile.updated_at) : null;
   return (
@@ -14,11 +14,6 @@ export const ProfileCard: FC = () => {
         <ProfileAvatar size="lg" />
         <Box>
           <Text>{profile.username}</Text>
-          {profile.website && (
-            <a href={profile.website} target="_blank" rel="noreferrer">
-              {profile.website}
-            </a>
-          )}
           <Text>
             <small>
               Last updated{' '}

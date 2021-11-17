@@ -4,8 +4,8 @@ import { ProfileCard } from './ProfileCard';
 import { Profile, PROFILES_TABLE } from '@/lib/supabase/constants';
 import { supabase } from '@/lib/supabase/client';
 import { ProfileProvider } from './ProfileContext';
-import { useSupabaseSubscriptionReducer } from '@/hooks/useSupabaseSubscriptionReducer';
-import { useSupabaseSubscription } from '@/hooks/useSupabaseSubscription';
+import { useSupabaseSubscriptionReducer } from '@/hooks/supabase/useSupabaseSubscriptionReducer';
+import { useSupabaseSubscription } from '@/hooks/supabase/useSupabaseSubscription';
 
 interface ProfileListProps {
   profiles: Profile[];

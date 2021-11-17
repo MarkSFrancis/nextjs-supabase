@@ -7,7 +7,7 @@ import { ProfileProvider } from '@/components/Profile/ProfileContext';
 import { ProfileAvatar } from '@/components/Profile/ProfileAvatar';
 
 export const NavbarProfileLink: FC = () => {
-  const { sessionProfile } = useSessionProfile();
+  const { data: sessionProfile } = useSessionProfile();
 
   if (!sessionProfile) {
     return <Spinner />;

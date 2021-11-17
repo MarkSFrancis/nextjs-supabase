@@ -12,7 +12,7 @@ export const SiteNavbar: FC = () => {
 
   return (
     <Box boxShadow="sm">
-      <PageContainer p={2}>
+      <PageContainer py={2}>
         <Wrap justify="space-between" spacing={4}>
           <NavbarHomeLink />
           <Box flexGrow={1} maxW="lg">

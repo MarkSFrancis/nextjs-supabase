@@ -31,5 +31,7 @@ module.exports = {
     'react/jsx-no-useless-fragment': 0,
     'import/prefer-default-export': 0,
     'react/jsx-props-no-spreading': 0,
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
 };

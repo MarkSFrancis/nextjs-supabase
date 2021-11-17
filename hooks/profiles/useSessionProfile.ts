@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase/client';
 import { Profile, PROFILES_TABLE } from '@/lib/supabase/constants';
 import { useAuthSession } from '../auth/useAuthSession';
-import { useSupabaseQuery } from '../useSupabaseQuery';
+import { useSupabaseQuery } from '../supabase/useSupabaseQuery';
 
 export const useSessionProfile = () => {
   const session = useAuthSession();
@@ -12,14 +12,10 @@ export const useSessionProfile = () => {
 
     return supabase
       .from<Profile>(PROFILES_TABLE)
-      .select('username, website, avatar_url')
+      .select('username, avatar_url')
       .eq('id', user.id)
       .single();
   }, [session]);
 
-  return {
-    isLoadingSessionProfile: sessionProfile.isLoading,
-    sessionProfile: sessionProfile.data,
-    sessionProfileError: sessionProfile.error,
-  };
+  return sessionProfile;
 };

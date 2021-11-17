@@ -7,6 +7,6 @@ export interface PostContext {
 
 const PostContext = createContext<PostContext>(undefined as unknown as PostContext);
 
-export const usePostContext = () => useContext(PostContext);
+export const usePost = () => useContext(PostContext);
 
 export const PostProvider = PostContext.Provider;

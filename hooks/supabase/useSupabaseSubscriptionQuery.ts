@@ -13,7 +13,7 @@ export const useSupabaseSubscriptionQuery = <T>(
 ) => {
   const initialQuery = useSupabaseQuery(() => query().select('*'), deps);
 
-  const [state, dispatch] = useSupabaseSubscriptionReducer([]);
+  const [state, dispatch] = useSupabaseSubscriptionReducer<T>([]);
 
   useSupabaseSubscription(query, dispatch, deps);
 
@@ -26,8 +26,7 @@ export const useSupabaseSubscriptionQuery = <T>(
   }, deps);
 
   return {
-    isLoading: initialQuery.isLoading,
+    ...initialQuery,
     data: state,
-    error: initialQuery.error,
   };
 };

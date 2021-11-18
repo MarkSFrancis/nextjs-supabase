@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import { SupabaseQueryBuilder } from '@supabase/supabase-js/dist/main/lib/SupabaseQueryBuilder';
-import { supabase } from '@/lib/supabase/client';
 import { useSupabaseQuery } from './useSupabaseQuery';
 import { useSupabaseSubscriptionReducer } from './useSupabaseSubscriptionReducer';
 import { useSupabaseSubscription } from './useSupabaseSubscription';

@@ -21,16 +21,20 @@ export const SiteNavbar: FC = () => {
           <Box flexGrow={1} maxW="lg">
             <NavbarSearch />
           </Box>
-          <Flex flexGrow={{ base: 1, sm: 0 }} justifyContent="flex-end">
+          <HStack
+            flexGrow={{ base: 1, sm: 0 }}
+            justifyContent={{ base: 'space-between', sm: 'flex-end' }}
+            spacing={4}
+          >
             {session ? (
-              <HStack spacing={4}>
+              <>
                 <NavbarCreatePostLink />
                 <NavbarProfileLink />
-              </HStack>
+              </>
             ) : (
               <NavbarSignInLink />
             )}
-          </Flex>
+          </HStack>
         </Wrap>
       </PageContainer>
     </Box>

@@ -1,21 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { FC } from 'react';
 import NextLink from 'next/link';
-import { forwardRef, IconButton, Tooltip } from '@chakra-ui/react';
-import { IconPlus } from '@tabler/icons';
+import { Button, forwardRef, Tooltip } from '@chakra-ui/react';
 import { useSessionProfile } from '@/hooks/profiles/useSessionProfile';
 
 const CreatePostLink = forwardRef((props, ref) => (
   <NextLink href="/posts/new" passHref>
-    <IconButton
-      ref={ref}
-      as="a"
-      colorScheme="green"
-      variant="outline"
-      icon={<IconPlus />}
-      aria-label="Make a post"
-      {...props}
-    />
+    <Button ref={ref} as="a" colorScheme="green" variant="outline" {...props}>
+      Make a post
+    </Button>
   </NextLink>
 ));
 

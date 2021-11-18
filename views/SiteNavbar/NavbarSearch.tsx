@@ -23,7 +23,13 @@ export const NavbarSearch: FC = () => (
       <InputGroup>
         <Input type="search" placeholder="Search" />
         <InputRightAddon p={0} overflow="hidden">
-          <IconButton borderRadius={0} type="submit" icon={<Search2Icon />} aria-label="Search" />
+          <IconButton
+            variant="ghost"
+            borderRadius={0}
+            type="submit"
+            icon={<Search2Icon />}
+            aria-label="Search"
+          />
         </InputRightAddon>
       </InputGroup>
     </FormControl>

@@ -16,6 +16,7 @@ export const UploadButton = (props: UploadButtonProps) => (
         isLoading={props.loading}
         icon={<EditIcon />}
         aria-label="Upload a new avatar"
+        colorScheme="gray"
       />
     </Tooltip>
     <Input

@@ -1,17 +1,17 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 import React from 'react';
 import Head from 'next/head';
 import { SiteNavbar } from '@/views/SiteNavbar';
+import { AppChakraProvider } from '@/components/AppChakraProvider';
 
 const App = ({ Component, pageProps }: AppProps) => (
-  <ChakraProvider>
+  <AppChakraProvider>
     <Head>
       <title>NextJS + Supabase</title>
     </Head>
     <SiteNavbar />
     <Component {...pageProps} />
-  </ChakraProvider>
+  </AppChakraProvider>
 );
 
 export default App;

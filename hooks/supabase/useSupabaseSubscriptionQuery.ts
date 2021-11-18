@@ -13,17 +13,9 @@ export const useSupabaseSubscriptionQuery = <T>(
 ) => {
   const initialQuery = useSupabaseQuery(() => query().select('*'), deps);
 
-  const [state, dispatch] = useSupabaseSubscriptionReducer<T>([]);
+  const [state, dispatch] = useSupabaseSubscriptionReducer<T>(initialQuery.data);
 
   useSupabaseSubscription(query, dispatch, deps);
-
-  useEffect(() => {
-    const subscription = query().on('*', dispatch).subscribe();
-
-    return () => {
-      supabase.removeSubscription(subscription);
-    };
-  }, deps);
 
   return {
     ...initialQuery,

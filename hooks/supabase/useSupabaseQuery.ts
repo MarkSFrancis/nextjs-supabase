@@ -7,14 +7,14 @@ export const useSupabaseQuery = <T, U extends PostgrestSingleResponse<T> | Postg
   query: SupabaseQuery<U>,
   deps: unknown[]
 ) => {
-  const state = useQuery<U['data'] | undefined>(async () => {
+  const state = useQuery<U['data']>(async () => {
     const { data, error } = await query();
 
     if (error) {
       throw error;
     }
 
-    return data ?? undefined;
+    return data ?? null;
   }, deps);
 
   return state;

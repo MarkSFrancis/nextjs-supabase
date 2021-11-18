@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { VStack, FormControl, Input, FormLabel, Button, Box, Textarea } from '@chakra-ui/react';
-import { ArrowRightIcon } from '@chakra-ui/icons';
+import { IconCloudUpload } from '@tabler/icons';
 import { SlimPageContainer } from '@/components/Container/SlimPageContainer';
 import { PageCard } from '@/components/Card/PageCard';
 import { useFormState } from '@/hooks/useFormState';
@@ -9,7 +9,7 @@ import { useSupabaseMutation } from '@/hooks/supabase/useSupabaseMutation';
 import { supabase } from '@/lib/supabase/client';
 import { Post, POSTS_TABLE } from '@/lib/supabase/constants';
 
-export const CreatePost = () => {
+export const MakeAPost = () => {
   const [title, setTitle] = useFormState();
   const [content, setContent] = useFormState();
   const [areaDescription, setAreaDescription] = useFormState();
@@ -47,7 +47,7 @@ export const CreatePost = () => {
           }}
         >
           <VStack align="stretch" spacing={6}>
-            <FormHeading>New post</FormHeading>
+            <FormHeading>Make a post</FormHeading>
             <FormControl isRequired id="title">
               <FormLabel>Title</FormLabel>
               <Input value={title} onChange={setTitle} />
@@ -68,10 +68,10 @@ export const CreatePost = () => {
             <Box>
               <Button
                 type="submit"
-                rightIcon={<ArrowRightIcon />}
+                rightIcon={<IconCloudUpload />}
                 isLoading={createState.isLoading}
               >
-                Create post
+                Publish
               </Button>
             </Box>
           </VStack>

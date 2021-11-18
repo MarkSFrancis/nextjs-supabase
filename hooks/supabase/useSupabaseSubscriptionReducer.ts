@@ -1,4 +1,4 @@
-import { Reducer, useEffect, useReducer } from 'react';
+import { Reducer, useEffect, useMemo, useReducer } from 'react';
 import { SupabaseQueryBuilder } from '@supabase/supabase-js/dist/main/lib/SupabaseQueryBuilder';
 import { SupabaseRealtimePayload } from '@supabase/supabase-js';
 
@@ -25,15 +25,17 @@ const handleDatabaseEvent = <T>(state: T[], action: SupabaseSubscriptionReducerA
   }
 };
 
-export const useSupabaseSubscriptionReducer = <T>(queryData: T[]) => {
+export const useSupabaseSubscriptionReducer = <T>(queryData: T[] | null | undefined) => {
+  const initialValue = useMemo(() => queryData ?? [], [queryData]);
+
   const [state, dispatch] = useReducer<Reducer<T[], SupabaseSubscriptionReducerAction<T>>>(
     handleDatabaseEvent,
-    queryData
+    initialValue
   );
 
   useEffect(() => {
-    dispatch({ eventType: 'SET_ALL', data: queryData ?? [] });
-  }, [queryData]);
+    dispatch({ eventType: 'SET_ALL', data: initialValue });
+  }, [initialValue]);
 
   return [state, dispatch] as const;
 };

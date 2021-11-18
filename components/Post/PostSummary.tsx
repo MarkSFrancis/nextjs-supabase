@@ -2,6 +2,7 @@ import { ArrowRightIcon } from '@chakra-ui/icons';
 import { Button, Divider, Heading, Icon, Text, VStack, Wrap } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { IconMapPin } from '@tabler/icons';
+import NextLink from 'next/link';
 import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { Card } from '../Card/Card';
 import { usePost } from './PostContext';
@@ -31,9 +32,11 @@ export const PostSummary: FC = () => {
             {post.content}
           </Text>
         )}
-        <Button type="button" rightIcon={<ArrowRightIcon />}>
-          Find out more
-        </Button>
+        <NextLink href={`/posts/${post.id}/${post.title}`} passHref>
+          <Button as="a" rightIcon={<ArrowRightIcon />}>
+            Find out more
+          </Button>
+        </NextLink>
       </VStack>
     </Card>
   );

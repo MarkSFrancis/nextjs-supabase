@@ -18,7 +18,7 @@ export const PostList: FC<PostListProps> = (props) => {
         <VStack align="flex-start" spacing={4}>
           <Heading>No posts found</Heading>
           <Text>No posts have been listed in your area yet</Text>
-          <NextLink href="/posts/new" passHref>
+          <NextLink href="/posts/make-a-post" passHref>
             <Button as="a" type="button" rightIcon={<ArrowRightIcon />}>
               Be the first
             </Button>

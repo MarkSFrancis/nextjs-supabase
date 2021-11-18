@@ -34,7 +34,7 @@ export const PostDetails: FC = () => {
         <Wrap minW="100%">
           <Box flexGrow={1}>
             <Button type="button" leftIcon={<IconMessages />}>
-              Contact poster
+              Reply
             </Button>
           </Box>
           <Button type="button" colorScheme="red" variant="outline" leftIcon={<IconFlag />}>
